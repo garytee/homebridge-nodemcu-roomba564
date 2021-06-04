@@ -59,7 +59,7 @@ Roomba564Accessory.prototype.setState = function(powerOn, callback) {
 //   var stream = fetch(command, accessory.ssh);
 
 
-  fetch(`${this.hostname}/${this.command}`)
+  var stream = fetch(`${this.hostname}/${command}`)
                 .then(response => response.json())
                 .then(data => {
                     log("Roomba started");
@@ -67,7 +67,6 @@ Roomba564Accessory.prototype.setState = function(powerOn, callback) {
                     callback();
                 })
 
-                var stream = JSON.stringify(callback);
 
 //                 .catch(err => {
 //                     log("Failed to start roomba");
@@ -110,7 +109,7 @@ Roomba564Accessory.prototype.getState = function(callback) {
 
 
 
-  fetch(`${this.hostname}/${this.command}`)
+  var stream = fetch(`${this.hostname}/${command}`)
                 .then(response => response.json())
                 .then(data => {
                     log("Roomba started");
@@ -118,7 +117,6 @@ Roomba564Accessory.prototype.getState = function(callback) {
                     callback();
                 })
 
-                var stream = JSON.stringify(data);
 
 //                 .catch(err => {
 //                     log("Failed to start roomba");
@@ -128,12 +126,13 @@ Roomba564Accessory.prototype.getState = function(callback) {
 
   stream.on('error', function (err) {
     accessory.log('Error: ' + err);
-    callback(err || new Error('Error setting ' + accessory.name + ' to ' + state));
+    callback(err || new Error('Error getting state of ' + accessory.name));
   });
 
-  stream.on('finish', function () {
-    accessory.log('Set ' + accessory.name + ' to ' + state);
-    callback(null);
+  stream.on('data', function (data) {
+    var state = data.toString('utf-8').trim().toLowerCase();
+    accessory.log('State of ' + accessory.name + ' is: ' + state);
+    callback(null, accessory.matchesString(state));
   });
 
 
