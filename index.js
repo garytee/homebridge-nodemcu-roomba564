@@ -8,10 +8,15 @@ module.exports = function(homebridge) {
     homebridge.registerAccessory("@garytee/homebridge-nodemcu-roomba564", "Roomba564", Roomba564Accessory);
 }
 
+// var roomba_state = 0;
 
 
 function Roomba564Accessory(log, config) {
 
+    // this.log        = log;
+    // this.name       = config["name"];
+    // this.hostname   = config["hostname"];
+    // this.model      = config["model"];
 
   this.log = log;
   this.service = 'Switch';
@@ -105,32 +110,31 @@ Roomba564Accessory.prototype.getState = function(callback) {
 
 
 
-  fetch(`${this.hostname}/${command}`)
+  fetch(`${this.hostname}/${this.command}`)
                 .then(response => response.json())
                 .then(data => {
-var state = data.toString('utf-8').trim().toLowerCase();
-    accessory.log('State of ' + accessory.name + ' is: ' + state);
-    callback(null, accessory.matchesString(state));
+                    log("Roomba started");
+                    log(data);
+                    callback();
                 })
 
-                // var stream = JSON.stringify(data);
+                var stream = JSON.stringify(data);
 
-                .catch(err => {
-                    log("Something messed up");
-                    log(err);
-                    callback(err);
-                });
+//                 .catch(err => {
+//                     log("Failed to start roomba");
+//                     log(err);
+//                     callback(err);
+//                 });
 
-//    stream.on('error', function (err) {
-//     accessory.log('Error: ' + err);
-//     callback(err || new Error('Error getting state of ' + accessory.name));
-//   });
+  stream.on('error', function (err) {
+    accessory.log('Error: ' + err);
+    callback(err || new Error('Error setting ' + accessory.name + ' to ' + state));
+  });
 
-//   stream.on('data', function (data) {
-//     var state = data.toString('utf-8').trim().toLowerCase();
-//     accessory.log('State of ' + accessory.name + ' is: ' + state);
-//     callback(null, accessory.matchesString(state));
-//   });
+  stream.on('finish', function () {
+    accessory.log('Set ' + accessory.name + ' to ' + state);
+    callback(null);
+  });
 
 
 //   var stream = fetch(`${this.hostname}/state`)
@@ -146,19 +150,19 @@ var state = data.toString('utf-8').trim().toLowerCase();
 //     callback(null, accessory.matchesString(state));
 //   });
 
-// fetch(`${this.hostname}/dock`)
-//   .then(response => {
-//     if(response.ok){
-//       response.json().then((data) => {
-//         console.log(data)
-//       });  
-//     }else{
-//       throw 'There is something wrong'
-//     }
-//   }).
-//   catch(error => {
-//       console.log(error);
-//   });
+fetch(`${this.hostname}/dock`)
+  .then(response => {
+    if(response.ok){
+      response.json().then((data) => {
+        console.log(data)
+      });  
+    }else{
+      throw 'There is something wrong'
+    }
+  }).
+  catch(error => {
+      console.log(error);
+  });
 
 
 }
