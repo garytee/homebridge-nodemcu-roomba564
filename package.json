@@ -1,0 +1,22 @@
+{
+  "name": "@garytee/homebridge-nodemcu-roomba564",
+  "version": "0.0.1",
+  "description": "Roomba564 for Homebridge via nodemcu microcontroller",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  },
+  "author": {
+    "name": "garytee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:garytee/homebridge-nodemcu-roomba564.git"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
