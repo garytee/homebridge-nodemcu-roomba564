@@ -8,15 +8,10 @@ module.exports = function(homebridge) {
     homebridge.registerAccessory("@garytee/homebridge-nodemcu-roomba564", "Roomba564", Roomba564Accessory);
 }
 
-// var roomba_state = 0;
 
 
 function Roomba564Accessory(log, config) {
 
-    // this.log        = log;
-    // this.name       = config["name"];
-    // this.hostname   = config["hostname"];
-    // this.model      = config["model"];
 
   this.log = log;
   this.service = 'Switch';
@@ -110,7 +105,7 @@ Roomba564Accessory.prototype.getState = function(callback) {
 
 
 
-  fetch(`${this.hostname}/${this.command}`)
+  fetch(`${this.hostname}/${command}`)
                 .then(response => response.json())
                 .then(data => {
                     log("Roomba State:");
@@ -126,14 +121,15 @@ Roomba564Accessory.prototype.getState = function(callback) {
 //                     callback(err);
 //                 });
 
-  stream.on('error', function (err) {
+   stream.on('error', function (err) {
     accessory.log('Error: ' + err);
-    callback(err || new Error('Error setting ' + accessory.name + ' to ' + state));
+    callback(err || new Error('Error getting state of ' + accessory.name));
   });
 
-  stream.on('finish', function () {
-    accessory.log('Set ' + accessory.name + ' to ' + state);
-    callback(null);
+  stream.on('data', function (data) {
+    var state = data.toString('utf-8').trim().toLowerCase();
+    accessory.log('State of ' + accessory.name + ' is: ' + state);
+    callback(null, accessory.matchesString(state));
   });
 
 
