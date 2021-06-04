@@ -65,7 +65,9 @@ Roomba564Accessory.prototype.setState = function(powerOn, callback) {
                     // log("Roomba started");
                     // log(data);
                     console.log(text)
-                    callback();
+                    // callback();
+                        accessory.log('Set ' + accessory.name + ' to ' + state);
+    callback(null);
                 })
 
 
@@ -115,7 +117,12 @@ Roomba564Accessory.prototype.getState = function(callback) {
                     // log("Roomba started");
                     // log(data);
                     console.log(text)
-                    callback();
+                    // callback();
+
+                        var state = text.toString('utf-8').trim().toLowerCase();
+    accessory.log('State of ' + accessory.name + ' is: ' + state);
+    callback(null, accessory.matchesString(state));
+
                 })
 
 
