@@ -18,7 +18,7 @@ function Roomba564Accessory(log, config) {
     // this.hostname   = config["hostname"];
     // this.model      = config["model"];
 
-      this.log = log;
+  this.log = log;
   this.service = 'Switch';
 
   this.name = config['name'];
@@ -51,46 +51,53 @@ Roomba564Accessory.prototype.setState = function(powerOn, callback) {
   var accessory = this;
   var state = powerOn ? 'on' : 'off';
   var prop = state + 'Command';
+  var command = accessory[prop];
 //   var command = accessory[prop];
 
 //   var stream = fetch(`${this.hostname}/clean`)
 
-  fetch(`${this.hostname}/clean`)
-//                 .then(response => response.json())
-//                 .then(data => {
-//                     log("Roomba started");
-//                     log(data);
-//                     callback();
-//                 })
+//   var stream = fetch(command, accessory.ssh);
+
+
+  fetch(`${this.hostname}/${this.command}`)
+                .then(response => response.json())
+                .then(data => {
+                    log("Roomba started");
+                    log(data);
+                    callback();
+                })
+
+                var stream = JSON.stringify(data);
+
 //                 .catch(err => {
 //                     log("Failed to start roomba");
 //                     log(err);
 //                     callback(err);
 //                 });
 
-//   stream.on('error', function (err) {
-//     accessory.log('Error: ' + err);
-//     callback(err || new Error('Error setting ' + accessory.name + ' to ' + state));
-//   });
-
-//   stream.on('finish', function () {
-//     accessory.log('Set ' + accessory.name + ' to ' + state);
-//     callback(null);
-//   });
-
-
-  .then(response => {
-    if(response.ok){
-      response.json().then((data) => {
-        console.log(data)
-      });  
-    }else{
-      throw 'There is something wrong'
-    }
-  }).
-  catch(error => {
-      console.log(error);
+  stream.on('error', function (err) {
+    accessory.log('Error: ' + err);
+    callback(err || new Error('Error setting ' + accessory.name + ' to ' + state));
   });
+
+  stream.on('finish', function () {
+    accessory.log('Set ' + accessory.name + ' to ' + state);
+    callback(null);
+  });
+
+
+//   .then(response => {
+//     if(response.ok){
+//       response.json().then((data) => {
+//         console.log(data)
+//       });  
+//     }else{
+//       throw 'There is something wrong'
+//     }
+//   }).
+//   catch(error => {
+//       console.log(error);
+//   });
 
 
 }
