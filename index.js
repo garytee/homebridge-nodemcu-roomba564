@@ -67,7 +67,7 @@ Roomba564Accessory.prototype.setState = function(powerOn, callback) {
                     callback();
                 })
 
-                var stream = JSON.stringify(data);
+                var stream = JSON.stringify(callback);
 
 //                 .catch(err => {
 //                     log("Failed to start roomba");
