@@ -150,19 +150,19 @@ Roomba564Accessory.prototype.getState = function(callback) {
 //     callback(null, accessory.matchesString(state));
 //   });
 
-fetch(`${this.hostname}/dock`)
-  .then(response => {
-    if(response.ok){
-      response.json().then((data) => {
-        console.log(data)
-      });  
-    }else{
-      throw 'There is something wrong'
-    }
-  }).
-  catch(error => {
-      console.log(error);
-  });
+// fetch(`${this.hostname}/dock`)
+//   .then(response => {
+//     if(response.ok){
+//       response.json().then((data) => {
+//         console.log(data)
+//       });  
+//     }else{
+//       throw 'There is something wrong'
+//     }
+//   }).
+//   catch(error => {
+//       console.log(error);
+//   });
 
 
 }
