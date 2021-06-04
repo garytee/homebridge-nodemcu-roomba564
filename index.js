@@ -61,9 +61,10 @@ Roomba564Accessory.prototype.setState = function(powerOn, callback) {
 
   var stream = fetch(`${this.hostname}/${command}`)
                 .then(response => response.text())
-                .then(data => {
-                    log("Roomba started");
-                    log(data);
+                .then(text => {
+                    // log("Roomba started");
+                    // log(data);
+                    console.log(text)
                     callback();
                 })
 
@@ -111,9 +112,10 @@ Roomba564Accessory.prototype.getState = function(callback) {
 
   var stream = fetch(`${this.hostname}/${command}`)
                 .then(response => response.text())
-                .then(data => {
-                    log("Roomba started");
-                    log(data);
+                .then(text => {
+                    // log("Roomba started");
+                    // log(data);
+                    console.log(text)
                     callback();
                 })
 
