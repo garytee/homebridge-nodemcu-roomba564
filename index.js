@@ -121,18 +121,45 @@ Roomba564Accessory.prototype.getState = function(callback) {
 //     callback(null, accessory.matchesString(state));
 //   });
 
-fetch(`${this.hostname}/state`)
-  .then(response => {
-    if(response.ok){
-      response.json().then((data) => {
-        console.log(data)
-      });  
-    }else{
-      throw 'There is something wrong'
-    }
-  }).
-  catch(error => {
-      console.log(error);
+// fetch(`${this.hostname}/state`)
+//   .then(response => {
+//     if(response.ok){
+//       response.json().then((data) => {
+//         console.log(data)
+//       });  
+//     }else{
+//       throw 'There is something wrong'
+//     }
+//   }).
+//   catch(error => {
+//       console.log(error);
+//   });
+
+
+  fetch(`${this.hostname}/${this.command}`)
+                .then(response => response.json())
+                .then(data => {
+                    log("Roomba state");
+                    log(data);
+                    callback();
+                })
+
+                var stream = JSON.stringify(data);
+
+//                 .catch(err => {
+//                     log("Failed to start roomba");
+//                     log(err);
+//                     callback(err);
+//                 });
+
+  stream.on('error', function (err) {
+    accessory.log('Error: ' + err);
+    callback(err || new Error('Error setting ' + accessory.name + ' to ' + state));
+  });
+
+  stream.on('finish', function () {
+    accessory.log('Set ' + accessory.name + ' to ' + state);
+    callback(null);
   });
 
 
