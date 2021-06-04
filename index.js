@@ -69,21 +69,20 @@ Roomba564Accessory.prototype.setState = function(powerOn, callback) {
                 })
 
 
-//                 .catch(err => {
-//                     log("Failed to start roomba");
-//                     log(err);
-//                     callback(err);
-//                 });
-
-  stream.catch('error', function (err) {
+                .catch(err => {
     accessory.log('Error: ' + err);
     callback(err || new Error('Error setting ' + accessory.name + ' to ' + state));
-  });
+                });
 
-  stream.catch('finish', function () {
-    accessory.log('Set ' + accessory.name + ' to ' + state);
-    callback(null);
-  });
+//   stream.catch('error', function (err) {
+//     accessory.log('Error: ' + err);
+//     callback(err || new Error('Error setting ' + accessory.name + ' to ' + state));
+//   });
+
+//   stream.catch('finish', function () {
+//     accessory.log('Set ' + accessory.name + ' to ' + state);
+//     callback(null);
+//   });
 
 
 //   .then(response => {
@@ -120,22 +119,21 @@ Roomba564Accessory.prototype.getState = function(callback) {
                 })
 
 
-//                 .catch(err => {
-//                     log("Failed to start roomba");
-//                     log(err);
-//                     callback(err);
-//                 });
-
-  stream.catch('error', function (err) {
+                .catch(err => {
     accessory.log('Error: ' + err);
     callback(err || new Error('Error getting state of ' + accessory.name));
-  });
+                });
 
-  stream.catch('data', function (data) {
-    var state = data.toString('utf-8').trim().toLowerCase();
-    accessory.log('State of ' + accessory.name + ' is: ' + state);
-    callback(null, accessory.matchesString(state));
-  });
+//   stream.catch('error', function (err) {
+//     accessory.log('Error: ' + err);
+//     callback(err || new Error('Error getting state of ' + accessory.name));
+//   });
+
+//   stream.catch('data', function (data) {
+//     var state = data.toString('utf-8').trim().toLowerCase();
+//     accessory.log('State of ' + accessory.name + ' is: ' + state);
+//     callback(null, accessory.matchesString(state));
+//   });
 
 
 //   var stream = fetch(`${this.hostname}/state`)
